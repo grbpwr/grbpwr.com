@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useDataContext } from "@/components/DataContext";
 import { Button } from "@/components/ui/button";
 import GenericPopover from "@/components/ui/popover";
+import { Text } from "@/components/ui/text";
 
 import MobileCurrencyPopover from "./mobile-currency-popover";
 
@@ -36,6 +37,10 @@ interface Props {
   title?: string;
 }
 
+function Trigger({ defaultValue }: { defaultValue: string | undefined }) {
+  return <Text variant="uppercase">{`currency ${defaultValue}`}</Text>;
+}
+
 export default function CurrencyPopover({ align = "end", title }: Props) {
   const { rates, selectedCurrency, setSelectedCurrency } = useDataContext();
 
@@ -50,9 +55,7 @@ export default function CurrencyPopover({ align = "end", title }: Props) {
         <GenericPopover
           title={title}
           openElement={
-            <Button size="sm" variant="simple" className="uppercase">
-              {`Currency: ${currencySymbols[selectedCurrency]}`}
-            </Button>
+            <Trigger defaultValue={currencySymbols[selectedCurrency]} />
           }
           contentProps={{
             sideOffset: title ? -25 : 16,
@@ -72,17 +75,17 @@ export default function CurrencyPopover({ align = "end", title }: Props) {
                 })}
                 key={k}
               >
-                <button
+                <Button
                   onClick={() => {
                     setSelectedCurrency(k);
                   }}
                   className="flex w-full"
                 >
-                  <span className="block min-w-8 text-left">
-                    {currencySymbols[k]}{" "}
-                  </span>
+                  <Text className="block min-w-8 text-left text-white">
+                    {currencySymbols[k]}
+                  </Text>
                   {v.description}
-                </button>
+                </Button>
               </div>
             ))}
           </div>
